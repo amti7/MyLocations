@@ -8,8 +8,20 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class CurrentLocationViewController: UIViewController{
 
+    
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var latitudeLabel: UILabel!
+    @IBOutlet weak var longitudeLabel: UILabel!
+    @IBOutlet weak var adressLabel: UILabel!
+    @IBOutlet weak var tagButton: UIButton!
+    @IBOutlet weak var getButton: UIButton!
+    
+    @IBAction func getLocation() {
+     
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -19,7 +31,5 @@ class FirstViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
