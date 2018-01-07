@@ -62,8 +62,26 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                          didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         print("didUpdateLocations \(newLocation)")
-        location = newLocation
-        updateLabels()
+        
+        if newLocation.timestamp.timeIntervalSinceNow < -5 {
+            return
+        }
+        if newLocation.horizontalAccuracy < 0 {
+            return
+        }
+        if location == nil || location!.horizontalAccuracy > newLocation.horizontalAccuracy {
+            location = newLocation
+            lastLocationError = nil
+            updateLabels()
+            
+            if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
+                print("*** We're done")
+                stopLocationManager()
+            }
+        }
+        
+        
+    
     }
     
     func showLocationServicesDeniedAllert() {
