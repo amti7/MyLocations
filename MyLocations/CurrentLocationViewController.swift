@@ -14,6 +14,10 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     var location: CLLocation?
     var updatingLocation = false
     var lastLocationError: Error?
+    let geocoder = CLGeocoder()
+    var placemark: CLPlacemark?
+    var performingReverseGeocoding = false
+    var lastGeocodingError: Error?
  
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var latitudeLabel: UILabel!
@@ -32,14 +36,23 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             showLocationServicesDeniedAllert()
             return
         }
-
-        startLocationManager()
+        if updatingLocation {
+            stopLocationManager()
+        } else {
+            location = nil
+            lastLocationError = nil
+            placemark = nil
+            lastGeocodingError = nil
+            startLocationManager()
+        }
         updateLabels()
+        configureGetViewButton()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateLabels()
+        configureGetViewButton()
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,6 +69,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         lastLocationError = error
         stopLocationManager()
         updateLabels()
+        configureGetViewButton()
     }
     
     func locationManager(_ manager: CLLocationManager,
@@ -77,11 +91,27 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
                 print("*** We're done")
                 stopLocationManager()
+                configureGetViewButton()
             }
         }
         
-        
-    
+        if !performingReverseGeocoding {
+            print("*** Geocoding...")
+            performingReverseGeocoding = true
+            
+            geocoder.reverseGeocodeLocation(newLocation, completionHandler: {
+                placemarks, error in
+                print("*** Found placemarks: \(String(describing: placemarks)), error: \(String(describing: error))")
+                self.lastGeocodingError = error
+                if error == nil, let p = placemarks, !p.isEmpty {
+                    self.placemark = p.last!
+                } else {
+                    self.placemark = nil
+                }
+                self.performingReverseGeocoding = false
+                self.updateLabels()
+            })
+        }
     }
     
     func showLocationServicesDeniedAllert() {
@@ -100,6 +130,17 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                 String(format: "%.8f", location.coordinate.longitude)
             tagButton.isHidden = false
             messageLabel.text = ""
+            
+            
+            if let placemark = placemark {
+                addressLabel.text = string(from: placemark)
+            } else if performingReverseGeocoding {
+                addressLabel.text = "Searching For Address... "
+            } else if lastGeocodingError != nil {
+                addressLabel.text = "Error Finding Address"
+            } else {
+                addressLabel.text = "No Address found"
+            }
         } else {
             latitudeLabel.text = ""
             longitudeLabel.text = ""
@@ -108,7 +149,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             messageLabel.text = "Tap 'Get My Location' to Start"
             
             let statusMessage: String
-            if let error = lastLocationError as? NSError {
+            if let error = lastLocationError as NSError? {
                 if error.domain == kCLErrorDomain && error.code == CLError.denied.rawValue {
                     statusMessage = "Location Services Disabled"
                 } else {
@@ -140,5 +181,37 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             locationManager.delegate = nil
             updatingLocation = false
         }
+    }
+    
+    func configureGetViewButton(){
+        if updatingLocation {
+            getButton.setTitle("Stop", for: .normal)
+        } else {
+            getButton.setTitle("Get My Location", for: .normal)
+        }
+    }
+    
+    func string(from placemark: CLPlacemark) -> String {
+        
+        var line1 = ""
+        if let s = placemark.subThoroughfare {
+            line1 = s + " "
+        }
+        if let s = placemark.thoroughfare {
+            line1 += s
+        }
+        
+        var line2 = ""
+        if let s = placemark.locality {
+            line2 = s + " "
+        }
+        if let s = placemark.administrativeArea {
+            line2 += s + " "
+        }
+        if let s = placemark.postalCode {
+            line2 += s
+        }
+        
+        return line1 + "\n" + line2
     }
 }
