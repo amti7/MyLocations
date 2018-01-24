@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F0B4CB02018E15100062C22 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B4CAF2018E15100062C22 /* CategoryPickerViewController.swift */; };
 		9F3781AD1FF4C9F500C2DBA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3781AC1FF4C9F500C2DBA2 /* AppDelegate.swift */; };
 		9F3781AF1FF4C9F500C2DBA2 /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3781AE1FF4C9F500C2DBA2 /* CurrentLocationViewController.swift */; };
 		9F3781B11FF4C9F500C2DBA2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3781B01FF4C9F500C2DBA2 /* SecondViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F0B4CAF2018E15100062C22 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		9F3781A91FF4C9F500C2DBA2 /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F3781AC1FF4C9F500C2DBA2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F3781AE1FF4C9F500C2DBA2 /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
@@ -60,12 +62,13 @@
 			children = (
 				9F3781AC1FF4C9F500C2DBA2 /* AppDelegate.swift */,
 				9F3781AE1FF4C9F500C2DBA2 /* CurrentLocationViewController.swift */,
+				9F0B4CAF2018E15100062C22 /* CategoryPickerViewController.swift */,
+				9F70C4D820067BF30064919B /* LocationDetailsViewController.swift */,
 				9F3781B01FF4C9F500C2DBA2 /* SecondViewController.swift */,
 				9F3781B21FF4C9F500C2DBA2 /* Main.storyboard */,
 				9F3781B51FF4C9F500C2DBA2 /* Assets.xcassets */,
 				9F3781B71FF4C9F500C2DBA2 /* LaunchScreen.storyboard */,
 				9F3781BA1FF4C9F500C2DBA2 /* Info.plist */,
-				9F70C4D820067BF30064919B /* LocationDetailsViewController.swift */,
 			);
 			path = MyLocations;
 			sourceTree = "<group>";
@@ -145,6 +148,7 @@
 				9F70C4D920067BF30064919B /* LocationDetailsViewController.swift in Sources */,
 				9F3781B11FF4C9F500C2DBA2 /* SecondViewController.swift in Sources */,
 				9F3781AD1FF4C9F500C2DBA2 /* AppDelegate.swift in Sources */,
+				9F0B4CB02018E15100062C22 /* CategoryPickerViewController.swift in Sources */,
 				9F3781AF1FF4C9F500C2DBA2 /* CurrentLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
